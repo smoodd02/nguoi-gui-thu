@@ -2,92 +2,161 @@
 <html lang="vi">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gửi Thư Tình ✉️</title>
-  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Gửi Thư Tình 💌</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet" />
   <style>
-    :root{--pink:#ff5d7c}
-    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    body{font-family:'Dancing Script',cursive;background:#fff5f8;color:#333;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:1rem}
-    .card{background:#ffffff;border-radius:1.25rem;box-shadow:0 10px 30px rgba(0,0,0,.08);max-width:430px;width:100%;padding:2rem 2.25rem;animation:fadeIn .5s ease-in-out}
-    @keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-    h1{text-align:center;font-size:2rem;font-weight:700;margin-bottom:1.25rem;color:var(--pink)}
-    label{display:block;font-weight:600;margin:.75rem 0 .35rem;font-family:inherit}
-    input[type=text],input[type=password],textarea{width:100%;padding:.65rem .8rem;border:1px solid #e4e4e4;border-radius:.55rem;font-size:1rem;font-family:'Dancing Script',cursive}
-    textarea{resize:vertical;min-height:140px}
-    .emoji-row{display:flex;gap:.5rem;margin-top:.5rem;flex-wrap:wrap}
-    .emoji-btn{font-size:1.25rem;cursor:pointer;background:#fdf0f3;border:none;border-radius:.5rem;padding:.25rem .5rem;transition:.2s}
-    .emoji-btn:hover{transform:scale(1.15)}
-    .preview{display:flex;flex-wrap:wrap;gap:.6rem;margin-top:.6rem}
-    .preview img{width:70px;height:70px;object-fit:cover;border-radius:.5rem;border:1px solid #eaeaea}
-    .submit-btn{width:100%;background:var(--pink);color:#fff;border:none;border-radius:999px;padding:.85rem;font-size:1.1rem;font-weight:700;margin-top:1.5rem;cursor:pointer;transition:background .2s;font-family:inherit}
-    .submit-btn:hover{background:#ff3d64}
-    .link{margin-top:1rem;padding:.75rem;border:1px dashed var(--pink);border-radius:.5rem;background:#fffafa;word-break:break-all;text-align:center;font-size:1rem}
+    :root { --pink: #ff5d7c; }
+    *, *::before, *::after {
+      box-sizing: border-box; margin: 0; padding: 0;
+    }
+    body {
+      font-family: 'Dancing Script', cursive;
+      background: #fff5f8;
+      color: #333;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .container {
+      background: #fff;
+      max-width: 450px;
+      width: 100%;
+      border-radius: 1.25rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      padding: 2rem 2.25rem;
+    }
+    h1 {
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 1.25rem;
+      color: var(--pink);
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      margin: 0.75rem 0 0.35rem;
+      font-family: inherit;
+    }
+    input[type="text"],
+    input[type="password"],
+    textarea {
+      width: 100%;
+      padding: 0.65rem 0.8rem;
+      border: 1px solid #e4e4e4;
+      border-radius: 0.55rem;
+      font-size: 1rem;
+      font-family: 'Dancing Script', cursive;
+      resize: vertical;
+    }
+    textarea {
+      min-height: 120px;
+    }
+    .submit-btn {
+      width: 100%;
+      background: var(--pink);
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      padding: 0.85rem;
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-top: 1.3rem;
+      cursor: pointer;
+      transition: background 0.2s;
+      font-family: inherit;
+    }
+    .submit-btn:hover {
+      background: #ff3d64;
+    }
+    .link-box {
+      margin-top: 1.5rem;
+      background: #ffeff3;
+      border: 1px solid #ffb6c1;
+      border-radius: 0.75rem;
+      padding: 1rem;
+      font-family: monospace;
+      word-break: break-all;
+      user-select: all;
+      text-align: center;
+      color: #d6336c;
+      cursor: pointer;
+    }
+    .error {
+      color: #ff3d64;
+      margin-top: 0.75rem;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
-  <div class="card">
-    <h1>💌 Gửi Thư Tình</h1>
-
+  <div class="container">
+    <h1>📬 Gửi Thư Tình</h1>
     <label>Người nhận</label>
-    <input type="text" id="receiver" placeholder="Tên người ấy…" />
+    <input type="text" id="receiver" placeholder="Tên người nhận..." />
 
     <label>Nội dung thư</label>
-    <textarea id="message" placeholder="Viết những lời yêu thương…"></textarea>
-
-    <label>Thêm emoji</label>
-    <div class="emoji-row" id="emoji-row">
-      <button class="emoji-btn">❤️</button>
-      <button class="emoji-btn">🥰</button>
-      <button class="emoji-btn">💐</button>
-      <button class="emoji-btn">🌹</button>
-      <button class="emoji-btn">😘</button>
-      <button class="emoji-btn">😂</button>
-      <button class="emoji-btn">🥹</button>
-    </div>
-
-    <label>Hình ảnh đính kèm</label>
-    <input type="file" id="images" multiple accept="image/*" />
-    <div class="preview" id="preview"></div>
+    <textarea id="message" placeholder="Viết lời nhắn..."></textarea>
 
     <label>Người gửi</label>
-    <input type="text" id="sender" placeholder="Tên bạn…" />
+    <input type="text" id="sender" placeholder="Tên người gửi..." />
 
-    <label>Mật khẩu riêng</label>
-    <input type="password" id="password" placeholder="Mật khẩu…" />
+    <label>Mật khẩu</label>
+    <input type="password" id="password" placeholder="Mật khẩu mở thư..." />
 
-    <button class="submit-btn" id="create-btn">Tạo thư</button>
-    <div id="link" class="link" style="display:none"></div>
+    <button class="submit-btn" id="create-btn">Tạo Thư</button>
+
+    <div class="error" id="error"></div>
+    <div class="link-box" id="link-box" style="display:none;" title="Click để copy link"></div>
   </div>
 
   <script>
-    // emoji insert
-    const emojiRow=document.getElementById('emoji-row');
-    const msgArea=document.getElementById('message');
-    emojiRow.addEventListener('click',e=>{if(e.target.classList.contains('emoji-btn')){msgArea.value+=e.target.textContent;msgArea.focus();}});
+    const createBtn = document.getElementById('create-btn');
+    const errorDiv = document.getElementById('error');
+    const linkBox = document.getElementById('link-box');
 
-    // image preview
-    const imgInput=document.getElementById('images');
-    const preview=document.getElementById('preview');
-    imgInput.onchange=()=>{preview.innerHTML='';[...imgInput.files].forEach(f=>{const url=URL.createObjectURL(f);const img=document.createElement('img');img.src=url;preview.appendChild(img);});};
+    createBtn.onclick = () => {
+      errorDiv.textContent = '';
+      linkBox.style.display = 'none';
 
-    // create letter
-    const createBtn=document.getElementById('create-btn');
-    const linkDiv=document.getElementById('link');
-    createBtn.onclick=()=>{
-      const data={
-        receiver:receiver.value.trim(),
-        message:msgArea.value.trim(),
-        sender:sender.value.trim(),
-        pass:password.value,
-        imgs:[...imgInput.files].map(f=>URL.createObjectURL(f))
+      const receiver = document.getElementById('receiver').value.trim();
+      const message = document.getElementById('message').value.trim();
+      const sender = document.getElementById('sender').value.trim();
+      const password = document.getElementById('password').value;
+
+      if (!receiver || !message || !sender || !password) {
+        errorDiv.textContent = 'Vui lòng điền đủ thông tin 🥹';
+        return;
+      }
+
+      // Tạo ID đơn giản
+      const id = 'lt' + Date.now();
+
+      // Dữ liệu lưu
+      const data = {
+        receiver,
+        message,
+        sender,
+        pass: password,
+        imgs: [] // Nếu muốn thêm hình sau này
       };
-      if(!data.receiver||!data.message||!data.sender){alert('Hãy điền đủ thông tin bắt buộc!');return;}
-      const id=crypto.randomUUID();
-      localStorage.setItem(id,JSON.stringify(data));
-      const url=`${location.origin}/receiver.html?id=${id}`;
-      linkDiv.textContent=url;linkDiv.style.display='block';
-      navigator.clipboard.writeText(url).catch(()=>{});
+
+      localStorage.setItem(id, JSON.stringify(data));
+
+      // Tạo link nhận thư dạng thư mục con /receiver/
+      const url = `${location.origin}/receiver/?id=${id}`;
+      linkBox.textContent = url;
+      linkBox.style.display = 'block';
+
+      // Copy link khi click vào box
+      linkBox.onclick = () => {
+        navigator.clipboard.writeText(url).then(() => {
+          alert('Đã sao chép link nhận thư!');
+        });
+      }
     };
   </script>
 </body>
