@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lá Thư Của Bạn 💌</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--pink:#ff5d7c}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Dancing Script',cursive;background:#fff5f8;color:#333;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden}
+    /* ===== HEART ANIMATION ===== */
+    .heart{position:fixed;bottom:-40px;width:20px;height:20px;background:red;clip-path:path('M10 30C10 30-12.5 12.5 10 0C32.5 12.5 10 30 10 30Z');opacity:.8;animation:float 6s linear infinite}
+    @keyframes float{to{transform:translateY(-110vh) scale(.6) rotate(360deg);opacity:0}}
+    /* ===== CARD ===== */
+    .screen{background:#ffffff;border-radius:1.25rem;box-shadow:0 10px 30px rgba(0,0,0,.08);max-width:450px;width:100%;padding:2rem 2.25rem;animation:fadeIn .6s ease-in-out;position:relative;z-index:2}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+    h1{text-align:center;font-size:2rem;font-weight:700;margin-bottom:1.25rem;color:var(--pink)}
+    label{display:block;font-weight:600;margin:.75rem 0 .35rem;font-family:inherit}
+    input[type=text],input[type=password]{width:100%;padding:.65rem .8rem;border:1px solid #e4e4e4;border-radius:.55rem;font-size:1rem;font-family:'Dancing Script',cursive}
+    .submit-btn{width:100%;background:var(--pink);color:#fff;border:none;border-radius:999px;padding:.85rem;font-size:1.1rem;font-weight:700;margin-top:1.3rem;cursor:pointer;transition:background .2s;font-family:inherit}
+    .submit-btn:hover{background:#ff3d64}
+    .error{color:#ff3d64;margin-top:.75rem;text-align:center}
+    /* ===== LETTER VIEW ===== */
+    .letter-wrapper{display:none;flex-direction:column;align-items:center;gap:1rem;position:relative;z-index:2}
+    .paper{background:#fff url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2220%22 height=%2220%22 viewBox=%220 0 20 20%22%3E%3Cpath d=%22M0 19h20v1H0z%22 fill=%22%23ffd6de%22/%3E%3C/svg%3E') repeat-y left top;border:2px solid #ffd6de;}
+    .typed{white-space:pre-line;font-size:1.35rem;line-height:1.6rem;color:#333}
+    .album{display:flex;gap:.5rem;overflow-x:auto;width:100%;padding-bottom:.5rem}
+    .album img{width:110px;height:110px;object-fit:cover;border-radius:.6rem;border:2px solid #fff;box-shadow:0 4px 10px rgba(0,0,0,.05);flex:0 0 auto}
+  </style>
+</head>
+<body>
+  <!-- hearts container -->
+  <div id="heart-container"></div>
+
+  <!-- initial screen -->
+  <div class="screen" id="screen">
+    <h1>📬 Nhận Thư</h1>
+    <label id="link-label">Link thư</label>
+    <input type="text" id="link" placeholder="Dán link thư…" />
+    <label>Mật khẩu</label>
+    <input type="password" id="password" placeholder="Nhập mật khẩu…" />
+    <button class="submit-btn" id="open-btn">Mở thư</button>
+    <div id="error" class="error"></div>
+  </div>
+
+  <!-- letter view -->
+  <div class="letter-wrapper" id="letter-wrap">
+    <div class="paper">
+      <div class="typed" id="typed"></div>
+    </div>
+    <div class="album" id="album"></div>
+  </div>
+
+  <script>
+    // ===== URL PARAM HANDLING =====
+    const params=new URLSearchParams(location.search);
+    const autoId=params.get('id');
+    const linkInput=document.getElementById('link');
+    const linkLabel=document.getElementById('link-label');
+    if(autoId){
+      linkInput.value=autoId;
+      linkInput.style.display='none';
+      linkLabel.style.display='none';
+      document.getElementById('password').focus();
+    }
+
+    // HEART GENERATOR
+    const heartContainer=document.getElementById('heart-container');
+    function spawnHeart(){const heart=document.createElement('div');heart.className='heart';heart.style.left=Math.random()*100+'vw';heart.style.animationDuration=4+Math.random()*4+'s';heart.style.background=['#ff6b81','#ff99ac','#ff3d64'][Math.floor(Math.random()*3)];heartContainer.appendChild(heart);setTimeout(()=>heart.remove(),6000);}
+    let heartInterval=null;function startHearts(){if(!heartInterval)heartInterval=setInterval(spawnHeart,300);}function stopHearts(){clearInterval(heartInterval);heartInterval=null;}
+
+    // OPEN LETTER
+    const openBtn=document.getElementById('open-btn');
+    const errorDiv=document.getElementById('error');
+    const wrap=document.getElementById('letter-wrap');
+    const screen=document.getElementById('screen');
+    openBtn.onclick=()=>{errorDiv.textContent='';const id=linkInput.value.trim();const pass=document.getElementById('password').value;const data=JSON.parse(localStorage.getItem(id));if(!data){errorDiv.textContent='Không tìm thấy thư 😢';return;}if(pass!==data.pass){errorDiv.textContent='Sai mật khẩu 🥹';return;}screen.style.display='none';wrap.style.display='flex';startHearts();showLetter(data);};
+
+    // TYPEWRITER
+    function typeText(t,e,i=0){if(i<t.length){e.textContent+=t[i];setTimeout(()=>typeText(t,e,i+1),45);}}
+    function showLetter(d){const typedEl=document.getElementById('typed');const album=document.getElementById('album');album.innerHTML=d.imgs.map(s=>`<img src='${s}'/>`).join('');typeText(`Thân gửi ${d.receiver},\n\n${d.message}\n\n— ${d.sender}`,typedEl);}
+    window.addEventListener('beforeunload',stopHearts);
+  </script>
+</body>
+</html>
